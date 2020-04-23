@@ -1,4 +1,6 @@
 import React from 'react'
+
+//компоненты
 import Task from './components/Task'
 import TaskInput from "./components/TaskInput"
 
@@ -28,7 +30,6 @@ class App extends React.Component {
             return tasks
         })
     }
-
 
     //хэлпер отметки о выполнении таска
     doneTask = id => {
@@ -91,7 +92,6 @@ class App extends React.Component {
                     // не оборачиваем в стрелочную функцию, т.к. здесь не передаем параметры
                     addTask={this.addTask}
                 >
-
                 </TaskInput>
             </div>
         );
