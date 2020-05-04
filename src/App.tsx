@@ -1,84 +1,56 @@
 import React from 'react'
-import Task from './components/Task'
-import TaskInput from "./components/TaskInput"
-import { Task } from './models/Task'
-// import {ITodo, ITodoList, ITodoListItem} from "./interfaces"
-
-// type StateType = {
-//     todos: Array<ITodoList>,
-//     isLoading: boolean
-// }
+import {Task} from './models/Task'
+import TaskItem from './components/task-item/TaskItem'
+import TaskInput from './components/task-input/TaskInput'
 
 interface AppState {
     tasks: Task[]
 }
 
 class App extends React.Component<{}, AppState>{
-constructor() {
-    super();
-
-    this.state = {
+    state = {
         tasks: [
-            {id: 1, title: 'Задача раз', done: false},
-            {id: 2, title: 'Задача два', done: false},
-            {id: 3, title: 'Задача три', done: false}
-        ],
-        isLoading: false
-    }
-}
-
-    addTask = task => {
-        this.setState(state => {
-            let {todoList} = state
-            todoList.push({
-                id: todoList.length !== 0 ? todoList.length : 0,
-                title: todoList,
-                done: false
-            })
-            return todoList
-        })
+            {id: 0, title: "Create something", done: false},
+            {id: 1, title: "Create vasa", done: true},
+            {id: 2, title: "Create baba", done: false}
+        ]
     }
 
-    doneTask = id => {
-        const index = this.state.tasks.map(task => task.id)
-            .indexOf(id)
-
-        this.setState(state => {
-            let {tasks} = state
-            tasks[index].done = true
-            return tasks
-        })
+    addTask = (title: string) => {
+        const { tasks } = this.state;
+        const newTasks = [ ...tasks, { title, id: tasks.length, done: false }];
+        this.setState({ tasks: newTasks });
     }
 
-    deleteTask = id => {
-        const index = this.state.tasks.map(task => task.id)
-            .indexOf(id)
-        this.setState(state => {
-            let {tasks} = state
-            delete tasks[index]
-        })
+    completeTask = (id: number) => {
+        const { tasks } = this.state;
+        const newTasks = tasks.map(t => t.id === id ? { ...t, done: true } : t);
+        this.setState({ tasks: newTasks });
     }
+
+    deleteTask = (id: number) => {
+        const { tasks } = this.state;
+        this.setState({ tasks: tasks.filter(t => t.id !== id) });
+    }
+
 
     render() {
-        const {tasks} = this.state
-        const activeTasks = tasks.filter(task => !task.done)
-        const doneTasks = tasks.filter(task => task.done)
+        const { tasks } = this.state;
+        const activeTasks = tasks.filter(task => !task.done);
+        const doneTasks = tasks.filter(task => task.done);
+
         return (
             <div className="App">
-                {/*берем длину массива - получаем количество задач*/}
                 <h1 className="top">Active tasks: {activeTasks.length}</h1>
-                {/*сначала невыполненные, потом выполненные*/}
                 {[...activeTasks, ...doneTasks].map(task => (
-                    <Task
-                        doneTask={() => this.doneTask(task.id)}
-                        deleteTask={() => this.deleteTask(task.id)}
-                        task={task}
-                        key={task.id}>
-                    </Task>))}
-                <TaskInput
-                    addTask={this.addTask}
-                >
-                </TaskInput>
+                    <TaskItem
+                        { ...task }
+                        key={task.id}
+                        onComplete={this.completeTask}
+                        onDelete={this.deleteTask}>
+                    </TaskItem>
+                ))}
+                <TaskInput onAdd={this.addTask}/>
             </div>
         );
     }
