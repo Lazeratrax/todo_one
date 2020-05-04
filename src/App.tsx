@@ -1,28 +1,41 @@
 import React from 'react'
 import Task from './components/Task'
 import TaskInput from "./components/TaskInput"
+import { Task } from './models/Task'
+// import {ITodo, ITodoList, ITodoListItem} from "./interfaces"
 
-class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            tasks: [
-                {id: 0, title: "Create something", done: false},
-                {id: 0, title: "Create vasa", done: true},
-                {id: 0, title: "Create baba", done: false}
-            ]
-        }
+// type StateType = {
+//     todos: Array<ITodoList>,
+//     isLoading: boolean
+// }
+
+interface AppState {
+    tasks: Task[]
+}
+
+class App extends React.Component<{}, AppState>{
+constructor() {
+    super();
+
+    this.state = {
+        tasks: [
+            {id: 1, title: 'Задача раз', done: false},
+            {id: 2, title: 'Задача два', done: false},
+            {id: 3, title: 'Задача три', done: false}
+        ],
+        isLoading: false
     }
+}
 
     addTask = task => {
         this.setState(state => {
-            let {tasks} = state
-            tasks.push({
-                id: tasks.length !== 0 ? tasks.length : 0,
-                title: task,
+            let {todoList} = state
+            todoList.push({
+                id: todoList.length !== 0 ? todoList.length : 0,
+                title: todoList,
                 done: false
             })
-            return tasks
+            return todoList
         })
     }
 
@@ -40,12 +53,9 @@ class App extends React.Component {
     deleteTask = id => {
         const index = this.state.tasks.map(task => task.id)
             .indexOf(id)
-
         this.setState(state => {
             let {tasks} = state
             delete tasks[index]
-            //с помощью filter не работает
-            // tasks.filter(task => task.id !==id)
         })
     }
 
