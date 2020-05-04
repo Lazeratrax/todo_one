@@ -2,6 +2,7 @@ import React from 'react'
 import {Task} from './models/Task'
 import TaskItem from './components/task-item/TaskItem'
 import TaskInput from './components/task-input/TaskInput'
+import Header from "./components/header/Header"
 
 interface AppState {
     tasks: Task[]
@@ -10,9 +11,10 @@ interface AppState {
 class App extends React.Component<{}, AppState>{
     state = {
         tasks: [
-            {id: 0, title: "Create something", done: false},
-            {id: 1, title: "Create vasa", done: true},
-            {id: 2, title: "Create baba", done: false}
+            {id: 0, title: "хороший", done: false},
+            {id: 1, title: "плохой", done: true},
+            {id: 2, title: "злой", done: false},
+            {id: 3, title: "Create ", done: false}
         ]
     }
 
@@ -33,7 +35,6 @@ class App extends React.Component<{}, AppState>{
         this.setState({ tasks: tasks.filter(t => t.id !== id) });
     }
 
-
     render() {
         const { tasks } = this.state;
         const activeTasks = tasks.filter(task => !task.done);
@@ -41,6 +42,7 @@ class App extends React.Component<{}, AppState>{
 
         return (
             <div className="App">
+                <Header/>
                 <h1 className="top">Active tasks: {activeTasks.length}</h1>
                 {[...activeTasks, ...doneTasks].map(task => (
                     <TaskItem
