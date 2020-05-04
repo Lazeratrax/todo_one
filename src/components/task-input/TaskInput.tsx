@@ -23,7 +23,7 @@ class TaskInput extends React.Component<TaskInputProps, TaskInputState> {
     render() {
         const {title} = this.state;
         return (
-            <div>
+            <div className="input-field mt2">
                 <input
                     type="text"
                     value={title}
