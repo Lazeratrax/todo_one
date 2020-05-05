@@ -1,0 +1,6 @@
+{
+  "port": 3007,
+  "jwtSecret": "На язык вассаби",
+  "mongoUri": "mongodb+srv://lazeratrax:bntu2010@cluster0-n3obi.mongodb.net/app?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:3227"
+}
